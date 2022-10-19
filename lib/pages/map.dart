@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakaomap_webview/kakaomap_webview.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -10,19 +11,21 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(
-        parent: AlwaysScrollableScrollPhysics(),
-      ),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('map')
-          ],
-        ),
-      ),
+    final size = MediaQuery.of(context).size;
+
+    return KakaoMapView(
+      width: size.width,
+      height: size.height,
+      kakaoMapKey: '059c865b6ec531caa368ee19373352a9',
+      lat: 33.450701,
+      lng: 126.570667,
+      showMapTypeControl: true,
+      showZoomControl: true,
+      markerImageURL:
+          'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+      onTapMarker: (message) {
+        //event callback when the marker is tapped
+      },
     );
   }
 }
