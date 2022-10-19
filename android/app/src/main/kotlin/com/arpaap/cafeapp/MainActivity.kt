@@ -1,4 +1,4 @@
-package com.arpaap.cafeapp.cafe_app
+package com.arpaap.cafeapp
 
 import io.flutter.embedding.android.FlutterActivity
 

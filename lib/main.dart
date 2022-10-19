@@ -1,4 +1,5 @@
-import 'package:cafe_app/pages/home.dart';
+import 'package:cafe_app/pages/discovery.dart';
+import 'package:cafe_app/pages/map.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,15 +35,34 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+  final _pageController = PageController();
+  int _currentIndex = 0;
+
+  final List<Widget> pages = [
+    MapPage(),
+    DiscoveryPage(),
+  ];
+  final List<String> asdf = ['맵', '디스커버리', '트렌드', '다이어리', 'MY'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('홈', style: TextStyle(color: Colors.black)),
+        title: Text(asdf[_currentIndex], style: TextStyle(color: Colors.black)),
       ),
-      body: HomePage(),
+      body: SizedBox.expand(
+        child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            physics: BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            children: pages),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
@@ -76,11 +96,16 @@ class _MyHomePageState extends State<MyHomePage> {
             label: '마이페이지',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            _currentIndex = index;
           });
+          _pageController.animateToPage(
+            index,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeOutExpo,
+          );
         },
       ),
     );
