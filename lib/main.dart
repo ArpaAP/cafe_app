@@ -1,27 +1,37 @@
+import 'package:cafe_app/pages/dairy.dart';
 import 'package:cafe_app/pages/discovery.dart';
 import 'package:cafe_app/pages/map.dart';
+import 'package:cafe_app/pages/mypage.dart';
+import 'package:cafe_app/pages/trending.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cafinder',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.black,
-            secondary: Colors.grey,
-            surface: Colors.black,
-            background: Colors.black,
-          ),
-          appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-          scaffoldBackgroundColor: Color.fromRGBO(235, 237, 240, 1)),
+        fontFamily: 'Pretendard',
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.black,
+          secondary: Colors.grey,
+          surface: Colors.black,
+          background: Colors.black,
+        ),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        scaffoldBackgroundColor: Color.fromRGBO(235, 237, 240, 1),
+      ),
       home: const MyHomePage(),
     );
   }
@@ -41,32 +51,41 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> pages = [
     MapPage(),
     DiscoveryPage(),
+    TrendingPage(),
+    DiaryPage(),
+    MyPage(),
   ];
-  final List<String> asdf = ['맵', '디스커버리', '트렌드', '다이어리', 'MY'];
+  final List<String> asdf = ['카페맵', '디스커버리', '트렌드', '다이어리', 'MY'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(asdf[_currentIndex], style: TextStyle(color: Colors.black)),
+        title: Text(
+          asdf[_currentIndex],
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 18,
+          ),
+        ),
+        centerTitle: true,
+        toolbarHeight: 52,
+        backgroundColor: Color.fromRGBO(249, 252, 255, 1),
+        toolbarOpacity: 0.8,
       ),
       body: SizedBox.expand(
         child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            physics: BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            children: pages),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          physics: BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          children: pages,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
